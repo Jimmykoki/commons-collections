@@ -27,9 +27,11 @@
 - Build
 You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-collections/download_collections.cgi).
  Specific steps are as follows:
- 1.Copy the repository to local
- 2.Use IntelliJ IDEA to import the project as a maven project 
- 3.Open the pom.xml file and select Maven and then select Reload Project
+ ```
+  Copy the repository to local
+  Use IntelliJ IDEA to import the project as a maven project 
+  Open the pom.xml file and select Maven and then select Reload Project
+```
 
 - Run
 
