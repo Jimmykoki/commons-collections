@@ -50,6 +50,252 @@ Apache Commons Collections
 
 The Apache Commons Collections package contains types that extend and augment the Java Collections Framework.
 
+
+#  Apache Commons Collections_ SWE261 SW TEST & DEBUG_
+
+## Part1
+
+### Project-Relevant
+
+- **Purpose**:The tools we are testing is [The Apache Commons Collections package](//https://github.com/apache/commons-collections). The package contains types that extend and augment the Java Collections Framework. It allows us to develop applications in a way that ensures performance while also greatly simplifying the code.
+
+- **Language**: Java
+
+- **Number of class**: 590
+
+  `find . -name '*.java' | wc -l`
+
+- **Lines of Codes:** 130157
+
+  `find . -name '*.java' | xargs wc -l`
+
+- **Number of Packages(Apache Commons Collections 4.4 API)**: 19
+
+### Previous-Test-Case
+
+- The previous test is in [collections-tests](//https://github.com/apache/commons-collections).
+
+- Current test cases covering the following aspect:![]()
+  <img src="https://i.imgur.com/Udn8H0A.png" width="50%" height="%" />
+
+- Build
+  You can download source and binaries from our [download page](https://commons.apache.org/proper/commons-collections/download_collections.cgi).
+  Specific steps are as follows:
+ ```
+  Copy the repository to local
+  Use IntelliJ IDEA to import the project as a maven project 
+  Open the pom.xml file and select Maven and then select Reload Project
+```
+
+- Run
+
+```xml
+ <dependency>
+   <groupId>org.apache.commons</groupId>
+   <artifactId>commons-collections4</artifactId>
+   <version>4.4</version>
+ </dependency>
+```
+
+
+
+### New-Test-Case
+
+- We will explore the main need for systematic functional testing and partition testing and then summarize the following point:
+
+  If we systematically test some cases from each part, and since we test different densities, it may cause some errors.
+
+- Now, the feature that we choose for partitioning is static void ContainsAny(Collection<?> coll1, Collection<?> coll2). Its function is to  determine whether two objects contain the same characters, we will use four test cases to test our partitions and boundaries, and use J-unit to test the case on IntelliJ IDEA.
+
+
+## Part2
+
+### Introduction to Finite State Machines
+Finite state machine is a mathematical model that represents a finite number of states and behavior such as transitions and actions between those states.
+
+
+### Function Model
+Here we choose the function of  ContainsAny. It is the main function of collection, we can rely on this function to determine whether two objects contain the same characters. In our FSM, we define 3 states and 2 actions:
+
+1. Dataset(Form the input into a dataset)
+2. List1/List2(The two parties we use to compare)
+3. Size Comparator(Compare the size of two lists)
+4. Judging Element Container(Judge whether they have the same element)
+5. Result(Results of the comparison)
+
+Create and describe that functional model, how it works:
+
+1. Split the input `dataset` into two `lists`
+2. Use `Size Comparator` to compare the size of two `lists` for determining which one is longer
+3. Using `Judging Element Container` to judge the elements that contain the `short list` in the `long list`
+4. Return to `Result`
+
+
+### FSM-Graph
+
+<img src="https://i.imgur.com/FepYD80.png" width="70%" height="%" />
+
+### Test-Case
+For each of the state, we write a test case to check the edge for income data and outcome data:
+
+```java
+public class TestCases_part2 extends MockTestCase{
+   @Test
+   public void containsAnyNull();
+   @Test
+   public void containsAnyTypeInput();
+   @Test
+   public void containAnyDataStructure();
+}
+```
+The test cases called [TestCases_part2.java](https://github.com/Jimmykoki/commons-collections/blob/master/src/test/java/org/apache/commons/collections4/TestCases_part2.java) are created in `src/test/java/org/apache/commons/collections4/TestCases_part2.java`
+
+
+## Part3
+
+### Introduction to White Box testing(Structural Testing)
+**White-box** testing is also known as **Structural testing**. This testing implement coverage testing to inspect every logic path and branch in software. It's able to help developer comprehend the internal logic of the program and reveal error in hidden corners.
+
+
+### Test coverage tool we use
+**Jacoco** can provide code coverage statistics for JVM-based code, and expects to provide lightweight, scalable, and well-documented library files to integrate various build and development tools.
+### Previous test
+We notice that `org.apache.commons.collection4.map` has the 87% coverage for class, 82% coverage for method, 87% coverage for line. Thus we add new test cases to cover some of its functionalities.
+
+<img src="https://i.imgur.com/EYN2hJ4.jpg" width="70%" height="%" />
+
+### Add Jacoco into IntelliJ IDEA
+In this report, we will show you how to use the **JaCoCo Maven plugin** to generate code coverage reports for Java projects. Declare JaCoCo plugin in the `pom.xml`file.
+``` Jacoco Maven Plugin
+<plugin>
+  <groupId>org.jacoco</groupId>
+  <artifactId>jacoco-maven-plugin</artifactId>
+  <version>0.8.2</version>
+  <executions>
+    <execution>
+      <goals>
+        <goal>prepare-agent</goal>
+      </goals>
+    </execution>
+  <!-- attached to Maven test phase -->
+    <execution>
+      <id>report</id>
+      <phase>test</phase>
+      <goals>
+        <goal>report</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+```
+
+### Coverage for Collections
+We want to focus on `org.apache.commons.collections.map`, which has the following coverage, such as line, branch, method coverage. We put it on a table.
+|measures|missed|total|coverage|
+| :-----:| :----: | :----: |:----:|
+|line|274|3162|91%|
+|branch|N/A|N/A|78%|
+|method|71|898|92%|
+
+We can also view the coverage of the mentioned lines and methods in the IntelliJ IDEA file as shown in the image below:
+
+<img src="https://i.imgur.com/Hi1QAf4.png" width="50%" height="%" />
+
+For `map` folder, we focus on `FixedSizeMap`, which only has 76% methods, 70% lines covered. `SingletonMap` only has 86% methods, 71% lines covered.`Flat3Map` has 90% methods,86% lines covered. Therefore, we design new test cases to improve the coverages of methods and lines in these two files.
+### New test case
+
+We put our code in `/src/test/java/org/apache/commons/collections4/TestCases_part3.java/`  ，and we could see the coverage has improved a lot compared to the previous data.
+
+We still query its coverage in IntelliJ IDEA, and compare it with the previous data as shown in the following picture and table:
+
+<img src="https://i.imgur.com/EDEsRDH.jpg" width="50%" height="%" />
+
+|measures|Method before|Method after|line before|line after|
+| :-----:| :----: | :----: |:----:|:----:|
+|FixedSizeMap|76%|92%|70%|79%|
+|SingletonMap|86%|88%|71%|76%|
+|Flat3Map|94%|94%|86%|90%|
+
+
+We write 5 methods to improve these 3 java files.
+
+- First, we improve `isFull()`,` maxSize()` in `FixedSizeMap`.
+``` java
+@Test
+    public void FixedSizeMapisFullTest(){
+        Map<String,Integer> testMap = new HashMap<>();
+        testMap.put("Test", 1);
+        FixedSizeMap fixedSizeMap = FixedSizeMap.fixedSizeMap(testMap);
+        assertTrue(fixedSizeMap.isFull());
+    }
+    
+    @Test
+    public void FixedSizeMapMaxSizeTest(){
+        Map<String,Integer> testMap = new HashMap<>();
+        testMap.put("Test1", 1);
+        testMap.put("Test2", 2);
+        testMap.put("Test3", 3);
+        FixedSizeMap fixedSizeMap = FixedSizeMap.fixedSizeMap(testMap);
+        assertEquals(3,fixedSizeMap.maxSize());
+    }
+```
+- Second, we improve `SingletonMap` in `SingletonMap`.
+``` java
+@Test
+    public void SingletonMapTest1(){
+        Map<String,Integer> testMap = new HashMap<>();
+        testMap.put("Test1", 1);
+        Map<String,Integer> result = new SingletonMap<>(testMap);
+        assertEquals(testMap, result);
+    }
+```
+- Third, we improve `remove` in `Flat3Map`.
+
+``` java
+@Test
+    public void Flat3MapTest1(){
+        final Flat3Map<Integer, Integer> m = new Flat3Map<>();
+        Object obj;
+        Integer ONE = Integer.valueOf(1);
+        Integer TWO = Integer.valueOf(2);
+        Integer THREE = Integer.valueOf(3);
+        m.put(ONE, ONE);
+        m.put(null, TWO);
+        m.put(THREE, THREE);
+        obj = m.remove(null);
+        assertSame(TWO, obj);
+        obj = m.get(ONE);
+        assertSame(ONE, obj);
+        obj = m.get(THREE);
+        assertSame(THREE, obj);
+        obj = m.get(null);
+        assertNull(obj);
+    }
+
+    @Test
+    public void Flat3MapTest2(){
+        final Flat3Map<Integer, Integer> m = new Flat3Map<>();
+        Object obj;
+        Integer ONE = Integer.valueOf(1);
+        Integer TWO = Integer.valueOf(2);
+        Integer THREE = Integer.valueOf(3);
+        m.put(null, ONE);
+        m.put(TWO, TWO);
+        m.put(THREE, THREE);
+        obj = m.remove(null);
+        assertSame(ONE, obj);
+        obj = m.get(TWO);
+        assertSame(TWO, obj);
+        obj = m.get(THREE);
+        assertSame(THREE, obj);
+        obj = m.get(null);
+        assertNull(obj);
+    }
+```
+
+
+
+
 Documentation
 -------------
 
