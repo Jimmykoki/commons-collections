@@ -17,7 +17,7 @@ matrix:
     - jdk: openjdk-ea
 
 script:
-  - mvn install -Drat.skip=true
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true  -Drat.skip=true -B -V
  
 after_success:
   - mvn -V --no-transfer-progress clean test jacoco:report coveralls:report -Ptravis-jacoco javadoc:javadoc -Ddoclint=all
