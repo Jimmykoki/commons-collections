@@ -6,6 +6,7 @@ cache:
 
 
 jdk:
+  - openjdk17
   - openjdk8
   - openjdk11
   - openjdk15
@@ -16,7 +17,7 @@ matrix:
     - jdk: openjdk-ea
 
 script:
-  - mvn -V --no-transfer-progress
+  - mvn install -Drat.skip=true
  
 after_success:
   - mvn -V --no-transfer-progress clean test jacoco:report coveralls:report -Ptravis-jacoco javadoc:javadoc -Ddoclint=all
