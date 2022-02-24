@@ -28,10 +28,6 @@ jdk:
   - openjdk11
   - openjdk15
 
-matrix:
-  allow_failures:
-    - jdk: openjdk-ea
-
 script:
   - mvn test
  
