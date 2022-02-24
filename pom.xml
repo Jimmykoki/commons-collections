@@ -6,9 +6,7 @@
    The ASF licenses this file to You under the Apache License, Version 2.0
    (the "License"); you may not use this file except in compliance with
    the License.  You may obtain a copy of the License at
-
        http://www.apache.org/licenses/LICENSE-2.0
-
    Unless required by applicable law or agreed to in writing, software
    distributed under the License is distributed on an "AS IS" BASIS,
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +67,7 @@
       <email>ggregory at apache.org</email>
       <url>https://www.garygregory.com</url>
       <organization>The Apache Software Foundation</organization>
-      <organizationUrl>https://www.apache.org/</organizationUrl>      
+      <organizationUrl>https://www.apache.org/</organizationUrl>
       <roles>
         <role>PMC Member</role>
       </roles>
@@ -529,7 +527,6 @@
       <version>2.0.2-beta</version>
       <scope>test</scope>
     </dependency>
-
   </dependencies>
 
   <distributionManagement>
@@ -549,9 +546,7 @@
     <!--
        This is also used to generate download_xxx file name.
        To override this when generating the download page:
-
        mvn commons:download-page -Dcommons.componentid=collections
-
        The above seems to change the download page name but not any other
        properties that depend on the componentid.
     -->
@@ -589,7 +584,7 @@
     <!-- The RC version used in the staging repository URL. -->
     <commons.rc.version>RC1</commons.rc.version>
     <checkstyle.version>3.1.2</checkstyle.version>
-    <checkstyle.dep.version>9.2.1</checkstyle.dep.version>
+    <checkstyle.dep.version>9.3</checkstyle.dep.version>
 
     <commons.site.path>collections</commons.site.path>
     <commons.scmPubUrl>https://svn.apache.org/repos/infra/websites/production/commons/content/proper/commons-collections</commons.scmPubUrl>
@@ -600,33 +595,34 @@
     <commons.jacoco.version>0.8.7</commons.jacoco.version>
     <commons.junit.version>5.8.2</commons.junit.version>
 
+    <!-- Override commons parent version to allow build on java 17 -->
+    <commons.japicmp.version>0.15.4</commons.japicmp.version>
+
     <!--Commons Release Plugin -->
     <commons.bc.version>4.4</commons.bc.version>
     <commons.release.isDistModule>true</commons.release.isDistModule>
-    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>    
+    <commons.releaseManagerName>Gary Gregory</commons.releaseManagerName>
     <commons.releaseManagerKey>86fdc7e2a11262cb</commons.releaseManagerKey>
 
   </properties>
 
 
   <build>
-    <defaultGoal>clean verify apache-rat:check checkstyle:check clirr:check javadoc:javadoc</defaultGoal>
-
-
+    <defaultGoal>clean verify apache-rat:check checkstyle:check japicmp:cmp javadoc:javadoc</defaultGoal>
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-          <configuration>
-            <includes>
-              <include>**/*Test.java</include>
-            </includes>
-            <excludes>
-              <exclude>**/*$*</exclude>
-              <exclude>**/TestUtils.java</exclude>
-              <exclude>**/Abstract*.java</exclude>
-              <exclude>**/BulkTest.java</exclude>
-            </excludes>
+        <configuration>
+          <includes>
+            <include>**/*Test.java</include>
+          </includes>
+          <excludes>
+            <exclude>**/*$*</exclude>
+            <exclude>**/TestUtils.java</exclude>
+            <exclude>**/Abstract*.java</exclude>
+            <exclude>**/BulkTest.java</exclude>
+          </excludes>
         </configuration>
       </plugin>
       <plugin>
@@ -726,7 +722,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-            <source>8</source>
+          <source>8</source>
         </configuration>
       </plugin>
     </plugins>
@@ -737,7 +733,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-changes-plugin</artifactId>
-        <version>2.12.1</version>
+        <version>${commons.changes.version}</version>
         <configuration>
           <issueLinkTemplatePerSystem>
             <default>%URL%/%ISSUE%</default>
@@ -861,7 +857,8 @@
                       <dirset dir="${commons.scmPubCheckoutDirectory}" includes="*" />
                     </pathconvert>
                     <exec executable="svn">
-
+                      <!--suppress UnresolvedMavenProperty -->
+                      <arg line="update --set-depth infinity ${dirs}" />
                     </exec>
                   </tasks>
                 </configuration>
@@ -886,4 +883,3 @@
   </profiles>
 
 </project>
-
