@@ -6,8 +6,10 @@ cache:
 
 
 jdk:
-  - oraclejdk15
-  - oraclejdk11
+  - openjdk8
+  - openjdk11
+  - openjdk15
+  - openjdk-ea
 
 matrix:
   allow_failures:
