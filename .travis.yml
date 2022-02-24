@@ -1,4 +1,9 @@
 language: java
 
+
+jdk:
+  - oraclejdk15
+  - oraclejdk11
+
 script:
-  - mvn -test -Drat.skip=true
+  - mvn test -Drat.skip=true
