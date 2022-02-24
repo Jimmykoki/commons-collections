@@ -4,6 +4,13 @@ language: java
 jdk:
   - oraclejdk15
   - oraclejdk11
+  
+matrix:
+  allow_failures:
+    - jdk: openjdk-ea
 
 script:
-  - mvn test -Drat.skip=true
+  - mvn -V --no-transfer-progress
+ 
+after_success:
+  - mvn -V --no-transfer-progress clean test jacoco:report coveralls:report -Ptravis-jacoco javadoc:javadoc -Ddoclint=all
