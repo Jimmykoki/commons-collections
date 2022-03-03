@@ -577,9 +577,15 @@ public class IterableUtils {
      * @param closure  the closure to apply to each element, may not be null
      * @throws NullPointerException if closure is null
      */
-    public static <E> void forEach(final Iterable<E> iterable, final Closure<? super E> closure) {
+    static <E> void forEach(final Iterable<E> iterable, final Closure<? super E> closure) {
         IteratorUtils.forEach(emptyIteratorIfNull(iterable), closure);
     }
+
+    public <E> void forEachV2(final Iterable<E> iterable, final Closure<? super E> closure) {
+        IteratorUtils.forEach(emptyIteratorIfNull(iterable), closure);
+    }
+
+
 
     /**
      * Executes the given closure on each but the last element in the iterable.

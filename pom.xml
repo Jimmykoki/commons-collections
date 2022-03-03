@@ -516,11 +516,14 @@
       <version>1.15</version>
       <optional>true</optional>
     </dependency>
+
     <dependency>
       <groupId>org.jacoco</groupId>
       <artifactId>jacoco-maven-plugin</artifactId>
-      <version>0.8.3</version>
+      <version>${commons.jacoco.version}</version>
+      <scope>test</scope>
     </dependency>
+
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-all</artifactId>
@@ -674,31 +677,31 @@
           </ignorePathsToDelete>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
-        <version>0.8.3</version>
-        <configuration>
-          <includes>
-            <include>**/**/*</include>
-          </includes>
-        </configuration>
+        <version>${commons.jacoco.version}</version>
         <executions>
           <execution>
-            <id>pre-test</id>
             <goals>
               <goal>prepare-agent</goal>
             </goals>
           </execution>
           <execution>
-            <id>post-test</id>
+            <id>jacoco-report</id>
             <phase>test</phase>
             <goals>
               <goal>report</goal>
             </goals>
+            <!-- default target/jscoco/site/* -->
+            <configuration>
+              <outputDirectory>target/jacoco-report</outputDirectory>
+            </configuration>
           </execution>
         </executions>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>

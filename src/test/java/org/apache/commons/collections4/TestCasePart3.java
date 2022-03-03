@@ -27,7 +27,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestCases_part3 {
+public class TestCasePart3 {
 
     @Test
     public void FixedSizeMapisFullTest(){
@@ -95,5 +95,7 @@ public class TestCases_part3 {
         obj = m.get(null);
         assertNull(obj);
     }
+
+
 
 }

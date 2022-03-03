@@ -28,7 +28,7 @@ import org.junit.Test;
 
 
 
-public class TestCases_part2 extends MockTestCase{
+public class TestCasePart2 extends MockTestCase{
    
 
     private List<Integer> collectionA;
@@ -46,15 +46,15 @@ public class TestCases_part2 extends MockTestCase{
     @Test
     public void testCollateInt(){
 
-        collectionA = new ArrayList<>();
         collectionA = Arrays.asList(1, 2, 2, 3, 3, 3);
-
-        collectionB = new ArrayList<>();
         collectionB = Arrays.asList(1, 1, 1, 2, 2, 3);
-
         int resultSize = 12;
+
         List<Integer> combinedList = CollectionUtils.collate(collectionA, collectionB);
-        System.out.println(collectionA);
+
+        System.out.println("SortedList_1 " + collectionA);
+        System.out.println("SortedList_2 "+ collectionB);
+        System.out.println("CombinedList " + combinedList);
 
         assertEquals(resultSize, combinedList.size());
         assertEquals(resultList1, combinedList);

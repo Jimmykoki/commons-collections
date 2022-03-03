@@ -390,6 +390,7 @@ public class IterableUtilsTest {
         assertThrows(IndexOutOfBoundsException.class, () -> IterableUtils.get(bag, 1));
     }
 
+    @Test
     public void firstFromIterable() throws Exception {
         // Collection, entry exists
         final Bag<String> bag = new HashBag<>();
