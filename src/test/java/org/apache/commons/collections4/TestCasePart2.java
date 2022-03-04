@@ -138,11 +138,9 @@ public class TestCasePart2 extends MockTestCase{
 
     @Test
     public void testCollateString(){
-        
-        collectionC = new ArrayList<>();
+
         collectionC = Arrays.asList("a", "b", "b", "c", "c", "c");
 
-        collectionD = new ArrayList<>();
         collectionD = Arrays.asList("a", "a", "a", "b", "b", "c");
 
 
@@ -164,8 +162,7 @@ public class TestCasePart2 extends MockTestCase{
         assertEquals(4, testBag.getCount(2));
         assertEquals(4, testBag.getCount(3));
 
-        List<Integer> fnialList = new ArrayList<>();
-        fnialList.addAll(testBag.uniqueSet());
+        List<Integer> fnialList = new ArrayList<>(testBag.uniqueSet());
 
         assertEquals(fnialList, reslutList3, "All elements keep only one");
     
